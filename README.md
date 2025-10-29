@@ -18,8 +18,8 @@ A real-time consultation application that enables doctor-patient communication a
 
 This app uses OpenAI's GPT models for medical record generation.
 
-### API Details:
-- **Model**: GPT-4
+-### API Details:
+- **Model**: gpt-4o
 - **Endpoint**: `/api/generate`
 - **Features**:
   - Conversation analysis
