@@ -6,6 +6,13 @@ A real-time consultation application that enables doctor-patient communication a
 
 🔗 **[Live Demo](https://medical-chat-app-delta.vercel.app/)**
 
+## Video Recording
+
+A short demo/recording of the app can be viewed here:
+
+[View demo recording on Google Drive](https://drive.google.com/file/d/1UGCuj7JgvACEpKaCz-rNdsslSoBpZkDU/view?usp=sharing)
+
+
 ## Tech Stack
 
 - **Framework**: [Next.js 14](https://nextjs.org/) with App Router
