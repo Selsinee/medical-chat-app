@@ -1,65 +1,171 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from "react";
+
+type Sender = 'Doctor' | 'Patient';
+
+type Message = {
+  sender: Sender;
+  text: string;
+};
 
 export default function Home() {
+
+  const [doctorInput, setDoctorInput] = useState('');
+  const [patientInput, setPatientInput] = useState('');
+  const [medicalRecord, setMedicalRecord] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [conversation, setConversation] = useState<Message[]>([
+    { sender: 'Doctor', text: 'What brings you in today?' },
+    { sender: 'Patient', text: 'I have fever and cough for 3 days.' },
+    { sender: 'Doctor', text: 'How high is the fever?' },
+    { sender: 'Patient', text: '38.5°C' },
+    { sender: 'Doctor', text: 'Any other symptoms?' },
+    { sender: 'Patient', text: 'Yes, body aches and tiredness.' },
+    { sender: 'Doctor', text: "I'll prescribe some medication and rest." },
+  ]);
+
+  const handleSend = (sender: Sender) => {
+    const text = sender === 'Doctor' ? doctorInput : patientInput;
+    if (text.trim()) {
+      setConversation([...conversation, { sender, text }]);
+      if (sender === 'Doctor') {
+        setDoctorInput('');
+      } else {
+        setPatientInput('');
+      }
+    }
+  };
+
+  const handleGenerateRecord = async () => {
+    setIsLoading(true);
+    setMedicalRecord('');
+
+    const formattedConversation = conversation
+      .map((msg) => `${msg.sender}: ${msg.text}`)
+      .join('\n');
+
+    try {
+      // TODO: Hit api
+      setTimeout(() => {
+        setMedicalRecord("Test medical record generated.");
+        setIsLoading(false);
+      }, 1000);
+
+    } catch (error) {
+      console.error(error);
+      alert('Error generating medical record. See console for details.');
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="flex min-h-screen bg-slate-100 font-sans dark:bg-slate-900 p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-7xl gap-6 mx-auto">
+        <div className="rounded-lg bg-white p-6 shadow-lg dark:bg-slate-800 h-[calc(100vh-3rem)] flex flex-col">
+          <h1 className="mb-6 text-center text-3xl font-bold text-slate-700 dark:text-slate-200">
+            Consultation
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+          <div className="mb-4 flex-1 overflow-y-auto rounded border border-slate-200 bg-slate-50 p-4 space-y-2 dark:border-slate-700 dark:bg-slate-700 min-h-0">
+            {conversation.map((msg, index) => (
+              <div key={index} className="text-sm text-slate-800 dark:text-slate-100">
+                <strong
+                  className={
+                    msg.sender === 'Doctor'
+                      ? 'text-teal-700 dark:text-teal-300'
+                      : 'text-rose-700 dark:text-rose-300' 
+                  }
+                >
+                  {msg.sender}:
+                </strong>{' '}
+                {msg.text}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <label
+                htmlFor="doctor"
+                className="font-semibold text-teal-700 dark:text-teal-300"
+              >
+                Doctor
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="doctor"
+                  type="text"
+                  value={doctorInput}
+                  onChange={(e) => setDoctorInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSend('Doctor')}
+                  className="flex-1 min-w-0 rounded border border-slate-300 p-2 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-slate-400"
+                  placeholder="Type message..."
+                />
+                <button
+                  onClick={() => handleSend('Doctor')}
+                  className="rounded bg-teal-600 px-3 py-2 font-semibold text-white hover:bg-teal-700 text-sm"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="patient"
+                className="font-semibold text-rose-700 dark:text-rose-300"
+              >
+                Patient
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="patient"
+                  type="text"
+                  value={patientInput}
+                  onChange={(e) => setPatientInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSend('Patient')}
+                  className="flex-1 min-w-0 rounded border border-slate-300 p-2 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder-slate-400"
+                  placeholder="Type message..."
+                />
+                <button
+                  onClick={() => handleSend('Patient')}
+                  className="rounded bg-rose-600 px-3 py-2 font-semibold text-white hover:bg-rose-700 text-sm"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="rounded-lg bg-white p-6 shadow-lg dark:bg-slate-800 flex flex-col h-[calc(100vh-3rem)]">
+          <h2 className="mb-6 text-center text-3xl font-bold text-slate-700 dark:text-slate-200">
+            Medical Record
+          </h2>
+          
+          <button
+            onClick={handleGenerateRecord}
+            disabled={isLoading || conversation.length === 0}
+            className="rounded bg-slate-700 px-4 py-3 text-lg font-bold text-white hover:bg-slate-800 disabled:opacity-50 dark:bg-slate-600 dark:hover:bg-slate-500 mb-6"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {isLoading ? 'Generating...' : medicalRecord ? 'Regenerate Medical Record' : 'Generate Medical Record'}
+          </button>
+
+          <div className="flex-1 rounded border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-700">
+            {medicalRecord ? (
+              <div className="text-sm text-slate-700 dark:text-slate-100">
+                {medicalRecord}
+              </div>
+            ) : (
+              <div className="flex h-full items-center justify-center text-sm text-slate-400">
+                No medical record generated yet
+              </div>
+            )}
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
