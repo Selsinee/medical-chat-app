@@ -17,7 +17,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [conversation, setConversation] = useState<Message[]>([
-    { sender: 'Doctor', text: 'What brings you in today?' }
+    { sender: 'Doctor', text: 'What brings you in today?' },
+    { sender: 'Patient', text: 'I have fever and cough for 3 days.' },
+    { sender: 'Doctor', text: 'How high is the fever?' },
+    { sender: 'Patient', text: '38.5°C' },
+    { sender: 'Doctor', text: 'Any other symptoms?' },
+    { sender: 'Patient', text: 'Yes, body aches and tiredness.' },
+    { sender: 'Doctor', text: "I'll prescribe some medication and rest." },
   ]);
 
   const handleSend = (sender: Sender) => {
