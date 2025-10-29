@@ -1,6 +1,10 @@
 # Medical Chat App
 
+[![Deploy with Vercel](https://vercel.com/button)](https://medical-chat-app-delta.vercel.app/) [![Deployment Status](https://therealsujitk-vercel-badge.vercel.app/?app=medical-chat-app-delta)](https://medical-chat-app-delta.vercel.app/)
+
 A real-time consultation application that enables doctor-patient communication and generates medical records using AI.
+
+🔗 **[Live Demo](https://medical-chat-app-delta.vercel.app/)**
 
 ## Tech Stack
 
