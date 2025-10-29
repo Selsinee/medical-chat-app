@@ -16,7 +16,15 @@ export default function Home() {
   const [medicalRecord, setMedicalRecord] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [conversation, setConversation] = useState<Message[]>([]);
+  const [conversation, setConversation] = useState<Message[]>([
+    { sender: 'Doctor', text: 'What brings you in today?' },
+    { sender: 'Patient', text: 'I have fever and cough for 3 days.' },
+    { sender: 'Doctor', text: 'How high is the fever?' },
+    { sender: 'Patient', text: '38.5°C' },
+    { sender: 'Doctor', text: 'Any other symptoms?' },
+    { sender: 'Patient', text: 'Yes, body aches and tiredness.' },
+    { sender: 'Doctor', text: "I'll prescribe some medication and rest." },
+  ]);
 
   const handleSend = (sender: Sender) => {
     const text = sender === 'Doctor' ? doctorInput : patientInput;
@@ -61,6 +69,11 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClearConversation = () => {
+    setConversation([]);
+    setMedicalRecord('');
   };
 
   return (
@@ -139,6 +152,16 @@ export default function Home() {
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="mt-4">
+            <button
+              onClick={handleClearConversation}
+              disabled={conversation.length === 0}
+              className="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-500 disabled:opacity-50 dark:border-slate-700 dark:text-slate-100"
+            >
+              Clear Conversation
+            </button>
           </div>
         </div>
 
