@@ -16,9 +16,7 @@ export default function Home() {
   const [medicalRecord, setMedicalRecord] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [conversation, setConversation] = useState<Message[]>([
-    { sender: 'Doctor', text: 'What brings you in today?' }
-  ]);
+  const [conversation, setConversation] = useState<Message[]>([]);
 
   const handleSend = (sender: Sender) => {
     const text = sender === 'Doctor' ? doctorInput : patientInput;
