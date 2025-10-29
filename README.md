@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Medical Chat App
 
-## Getting Started
+A real-time consultation application that enables doctor-patient communication and generates medical records using AI.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js 14](https://nextjs.org/) with App Router
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) for responsive design
+- **Language**: TypeScript for type-safe code
+- **Features**:
+  - Real-time chat interface
+  - Dark mode support
+  - Responsive design
+  - Medical record generation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How to Run the App
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Prerequisites**:
+   - Node.js 18+ installed
+   - npm or yarn package manager
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Environment Setup**:
+   ```bash
+   # Clone the repository
+   git clone https://github.com/Selsinee/medical-chat-app.git
+   cd medical-chat-app
 
-## Learn More
+   # Install dependencies
+   npm install
+   # or
+   yarn install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Environment Variables**:
+   Create a `.env.local` file in the root directory:
+   ```env
+   OPENAI_API_KEY=your_api_key_here
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Run the Development Server**:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. **Access the App**:
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy on Vercel
+## LLM Integration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This app uses OpenAI's GPT models for medical record generation.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### API Details:
+- **Model**: GPT-4
+- **Endpoint**: `/api/generate`
+- **Features**:
+  - Conversation analysis
+  - Medical record formatting
+  - Symptom summarization
+
+ ## Note
+ 
+ This project is a technical assessment/test for a full stack engineer role and is not intended for production use or distribution.
