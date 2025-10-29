@@ -17,13 +17,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [conversation, setConversation] = useState<Message[]>([
-    { sender: 'Doctor', text: 'What brings you in today?' },
-    { sender: 'Patient', text: 'I have fever and cough for 3 days.' },
-    { sender: 'Doctor', text: 'How high is the fever?' },
-    { sender: 'Patient', text: '38.5°C' },
-    { sender: 'Doctor', text: 'Any other symptoms?' },
-    { sender: 'Patient', text: 'Yes, body aches and tiredness.' },
-    { sender: 'Doctor', text: "I'll prescribe some medication and rest." },
+    { sender: 'Doctor', text: 'What brings you in today?' }
   ]);
 
   const handleSend = (sender: Sender) => {
@@ -47,17 +41,27 @@ export default function Home() {
       .join('\n');
 
     try {
-      // TODO: Hit api
-      setTimeout(() => {
-        setMedicalRecord("Test medical record generated.");
-        setIsLoading(false);
-      }, 1000);
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ conversation: formattedConversation }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate record');
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setMedicalRecord(data.medicalRecord);
 
     } catch (error) {
       console.error(error);
       alert('Error generating medical record. See console for details.');
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -155,9 +159,10 @@ export default function Home() {
 
           <div className="flex-1 rounded border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-700">
             {medicalRecord ? (
-              <div className="text-sm text-slate-700 dark:text-slate-100">
+              // Use <pre> to respect whitespace and newlines from the AI
+              <pre className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-100">
                 {medicalRecord}
-              </div>
+              </pre>
             ) : (
               <div className="flex h-full items-center justify-center text-sm text-slate-400">
                 No medical record generated yet
