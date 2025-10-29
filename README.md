@@ -7,11 +7,20 @@ A real-time consultation application that enables doctor-patient communication a
 - **Framework**: [Next.js 14](https://nextjs.org/) with App Router
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) for responsive design
 - **Language**: TypeScript for type-safe code
+- **LLM API:** [OpenAI](https://openai.com/) (specifically, the `gpt-4o` model)
+  
+
+## LLM Integration
+
+This app uses OpenAI's GPT models for medical record generation.
+
+### API Details:
+- **Model**: GPT-4
+- **Endpoint**: `/api/generate`
 - **Features**:
-  - Real-time chat interface
-  - Dark mode support
-  - Responsive design
-  - Medical record generation
+  - Conversation analysis
+  - Medical record formatting
+  - Symptom summarization
 
 ## How to Run the App
 
@@ -46,18 +55,6 @@ A real-time consultation application that enables doctor-patient communication a
 
 5. **Access the App**:
    Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## LLM Integration
-
-This app uses OpenAI's GPT models for medical record generation.
-
-### API Details:
-- **Model**: GPT-4
-- **Endpoint**: `/api/generate`
-- **Features**:
-  - Conversation analysis
-  - Medical record formatting
-  - Symptom summarization
 
  ## Note
  
